@@ -1,5 +1,6 @@
-use std::fs::File;
+use std::fs::File;  
 use std::io::{Read, Write};
+use encoding_rs::UTF_8;
 
 #[derive(Debug)]
 struct Student {
@@ -18,13 +19,13 @@ enum Data {
 fn data_to_string(data: &Data) -> String {
     match data {
         Data::Text(s) => (*s).clone(),
-        Data::Numbers(num) => "\0".to_string(),
+        Data::Numbers(_num) => "\0".to_string(),
     }
 }
 
 fn data_to_value(data: &Data) -> [u8; 3]{
     match data {
-        Data::Text(s) => [(0 as u8); 3],
+        Data::Text(_s) => [(0 as u8); 3],
         Data::Numbers(num) => *num,
     }
 }
@@ -43,33 +44,33 @@ fn main() -> std::io::Result<()> {
     // for write
     let students = vec![
         Student {
-            name: "Jane".to_string(),
-            gender: "Female".to_string(),
-            group: "Group B".to_string(),
+            name: "Группа Б".to_string(),
+            gender: "Группа Б".to_string(),
+            group: "Группа Б".to_string(),
             grades: [90, 95, 92],
         },
         Student {
-            name: "Bob".to_string(),
-            gender: "Male".to_string(),
-            group: "Group A".to_string(),
+            name: "Райн Гослинг".to_string(),
+            gender: "мужык".to_string(),
+            group: "обкончалась когда его увидела".to_string(),
             grades: [85, 80, 90],
         },
         Student {
-            name: "Alice".to_string(),
-            gender: "Female".to_string(),
-            group: "Group C".to_string(),
+            name: "Афанасий".to_string(),
+            gender: "не понятный".to_string(),
+            group: "пованивающих уебанов".to_string(),
             grades: [95, 90, 85],
         },
         Student {
-            name: "David".to_string(),
-            gender: "Male".to_string(),
-            group: "Group B".to_string(),
+            name: "иуууууууууууууууу".to_string(),
+            gender: "запрэдельный ибаааааааааать".to_string(),
+            group: "смайлфэйс".to_string(),
             grades: [80, 85, 90],
         },
         Student {
-            name: "Sara".to_string(),
-            gender: "Female".to_string(),
-            group: "Group A".to_string(),
+            name: "хочу".to_string(),
+            gender: "бананы".to_string(),
+            group: "ХОЧУ БАНАНЫ!".to_string(),
             grades: [90, 92, 95],
         },
     ];
@@ -107,16 +108,16 @@ fn main() -> std::io::Result<()> {
         let mut student_data = vec![Data::Text(String::new()), Data::Text(String::new()), Data::Text(String::new()), Data::Numbers([0; 3])];
         let count = buffer[offset] as u8;
         offset+=1;
-        for index in 0..count{
+        for _index in 0..count{
             for item in &mut student_data{
                 match item {
                     Data::Text(s) => {
                         offset+=1;
-                        for i in 0..buffer[offset-1]{
-                            *s+=std::str::from_utf8(&[buffer[offset+(i as usize)];1]).unwrap();
-                        }
+                        let trans:Vec<u8> = buffer[offset..offset+(buffer[offset-1]) as usize].to_vec();
+                        let (decoded, _, _) = UTF_8.decode(&trans);
+                        *s = decoded.to_string();
                         *s +="\0";
-                        offset += buffer[offset-1] as usize;
+                        offset += (buffer[offset-1]) as usize;
                     },
                     Data::Numbers(num) => {
                         for i in 0..3{
