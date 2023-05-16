@@ -8,6 +8,8 @@ fn main() {
         a+=0.1;
         i +=1;
     }
+    let zilihudmain:f32 = find_integral_by_rectangles(&3.4, &4.6);
+    println!("метод прямоугольников: {:.3}", zilihudmain);
 }
 
 fn get_value(x:f32)-> f32{
@@ -15,3 +17,19 @@ fn get_value(x:f32)-> f32{
    let stepen = -(x*x)/2.0;
    return 20.0*a.powf(stepen);
 }
+
+fn find_integral_by_rectangles(&a:&f32, &b:&f32,)-> f32{
+    let mut result:f32 = 0.0;
+
+    let n:i32 = 1000;
+    let h:f32 = (b-a) / n as f32;
+    println!("h={h}, n={n}");
+
+    for k in 0..n{
+        let xk:f32 = a + (k as f32 * h);
+        let step_result:f32 = get_value(xk-h/2.0)*h;
+        result = result + step_result;
+    }
+    return result
+}
+
