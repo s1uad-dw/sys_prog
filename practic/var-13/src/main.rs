@@ -49,3 +49,25 @@ fn num_3()-> f32{
 
     multiplier1*multiplier2
 }
+
+use plotters::prelude::*;
+
+// fn main() -> Result<(), Box<dyn std::error::Error>> {
+//     let root = BitMapBackend::new("plot.png", (640, 480)).into_drawing_area();
+//     root.fill(&WHITE)?;
+
+//     let mut chart = ChartBuilder::on(&root)
+//         .caption("y = sin(x) * cos(x)", ("sans-serif", 20))
+//         .x_label_area_size(40)
+//         .y_label_area_size(40)
+//         .build_cartesian_2d(-5.0..5.0, -1.0..1.0)?;
+
+//     chart.configure_mesh().draw()?;
+
+//     chart.draw_series(LineSeries::new(
+//         (-50..=50).map(|i| (i as f64 / 10.0, (i as f64 / 10.0).sin() * (i as f64 / 10.0).cos())),
+//         &BLUE,
+//     ))?;
+
+//     Ok(())
+// }
