@@ -10,6 +10,7 @@ fn main() {
     }
     let zilihudmain:f32 = find_integral_by_rectangles(&3.4, &4.6);
     println!("метод прямоугольников: {:.3}", zilihudmain);
+    println!("Метод симпсона: {}", num_3())
 }
 
 fn get_value(x:f32)-> f32{
@@ -33,3 +34,18 @@ fn find_integral_by_rectangles(&a:&f32, &b:&f32,)-> f32{
     return result
 }
 
+fn num_3()-> f32{
+    let a:f32 = 3.4;
+    let b:f32 = 4.6;
+    let multiplier1 = (b-a)/(3.0*16.0);
+    let mut multiplier2 = get_value(3.4);
+    let interval:f32 = (b-a)/16.0;
+
+    for i in 1..16{
+        multiplier2+=get_value(a+i as f32 * interval) + 2.0 + (i % 2) as f32 *2.0;
+    }
+
+    multiplier2+=get_value(b);
+
+    multiplier1*multiplier2
+}
