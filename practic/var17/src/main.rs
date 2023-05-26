@@ -36,7 +36,7 @@ fn main() {
 fn build_ui(application: &gtk::Application) {
     // create the main window
     let window = gtk::ApplicationWindow::new(application);
-    window.set_title("Лыжники");
+    window.set_title("Лыжники WinApi");
     window.set_border_width(5);
     window.set_position(gtk::WindowPosition::Center);
     window.set_default_size(840, 480);
